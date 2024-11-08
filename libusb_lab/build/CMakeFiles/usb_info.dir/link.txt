@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic -Wl,--dependency-file,CMakeFiles/usb_info.dir/link.d CMakeFiles/usb_info.dir/libusb_lab.cpp.o -o usb_info  -lusb-1.0

@@ -50,33 +50,24 @@ void print_device_info(libusb_device *device) {
   inter = &config->interface[0];
   interdesc = &inter->altsetting[0];
   cout << "Device class code: " << static_cast<int>(desc.bDeviceClass) << endl;
+  cout << "ProductID: " << desc.idProduct << endl;
   cout << "Manufacturer ID: " << desc.idVendor << endl;
   libusb_device_handle *handle;
   result = libusb_open(device, &handle);
   if (result == 0) {
-    unsigned char buffer[33];
-    if (desc.iSerialNumber >= 0) { //desc.iSerialNumber > 0
+    unsigned char buffer[256];
+    if (desc.iSerialNumber >= 0) { 
       libusb_get_string_descriptor_ascii(
           handle, desc.iSerialNumber,
           buffer, sizeof(buffer) );
-      buffer[32] = '\0';
       cout << "Serial number: " << buffer << endl;
     }
-    if (desc.iProduct >= 0) {//desc.iProduct > 0
+    if (desc.iProduct >= 0) {
       libusb_get_string_descriptor_ascii(
           handle, desc.iProduct, buffer,
           sizeof(buffer));
       cout << "Product Name: " << buffer << endl;
     }
-    if (desc.iManufacturer >= 0) {//desc.iManufacturer > 0
-      libusb_get_string_descriptor_ascii(
-          handle, desc.iManufacturer,
-          buffer, sizeof(buffer));
-      cout << "Manufacturer’s name: " << buffer << endl;
-    }
-    cout << "Device interface class: "
-         << static_cast<int>(interdesc->bInterfaceClass) << endl;
-    libusb_close(handle);
   }
   cout << "--------------------------------" << endl;
 }
